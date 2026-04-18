@@ -160,7 +160,7 @@ scan libssh.so
 
 ### `nmap`
 
-Displays comprehensive network information for a target IP. If no IP is given, uses the current context.
+Displays comprehensive network information for a target IP. If no IP is given, it prints the saved results of the last nmap.
 
 ```
 nmap {ip}    Display network information
