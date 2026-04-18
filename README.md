@@ -683,7 +683,7 @@ HEX reads two optional environment variables during compilation.  Note that this
 
 ### InsecureLibs Folder
 
-The `poison` command uploads files from `~/InsecureLibs/` on your home computer. Populate this folder with vulnerable `.so` files to use as poison payloads.
+The `poison` command uploads files from `/root/InsecureLibs/` on your home computer. Populate this folder with vulnerable `.so` files to use as poison payloads.
 
 ---
 
