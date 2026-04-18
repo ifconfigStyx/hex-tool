@@ -224,6 +224,8 @@ rshell -c                            Kill all rshell processes
 rshell -h                            Display help text
 ```
 
+**Setup:** Create `/root/SecureLibs/` on your in-game home computer and populate it with `librshell.so` in order to use `rshell start`.
+
 ---
 
 ### `poison`
