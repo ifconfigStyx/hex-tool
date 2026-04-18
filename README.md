@@ -124,9 +124,9 @@ When HEX launches, it displays the banner and command prompt. Type `help` to see
 2. scan <target-ip>          — Find exploitable vulnerabilities on target
 3. hack <target-ip>          — Exploit vulnerabilities and add to context stack
 4. swap <stack index>        — Switch context to one of the objects resulting from the exploits
-4. decipher                  — Extract and decrypt credentials from target
-5. log                       — Corrupt logs to cover your tracks
-6. stack                     — Review all active contexts
+5. decipher                  — Extract and decrypt credentials from target
+6. log                       — Corrupt logs to cover your tracks
+7. stack                     — Review all active contexts
 ```
 
 ### The Context Stack
