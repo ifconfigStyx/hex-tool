@@ -674,12 +674,12 @@ Uncomment the block matching your game mode before building.
 
 ### Environment Variables
 
-HEX reads two optional environment variables at startup:
+HEX reads two optional environment variables during compilation.  Note that this functionality is only supported with greybel, and these variables must be configured in the greyble-vs settings (transpiler environment variables):
 
-| Variable | Format | Description |
-|---|---|---|
-| `$proxies` | JSON list of `[ip, port, user, pass]` | Pre-configure proxy chains |
-| `$rshell` | JSON object | Pre-configure the rshell server connection |
+| Variable | Format | Description | file |
+|---|---|---|---|
+| `#envar proxies` | JSON list of `[ip, port, user, pass]` | Pre-configure proxy chains | In hex/proxies.src |
+| `#envar rshell` | JSON object | Pre-configure the rshell server connection | In hex/rshell.src |
 
 ### InsecureLibs Folder
 
