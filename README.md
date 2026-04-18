@@ -259,6 +259,8 @@ net -z/zday          List all mail accounts; print From/Subject of every inbox m
 net -h               Display help text
 ```
 
+**Setup:** In order to use this on a router (so that it will work network-wide), you have to create `/root/InsecureLibs/` on your home computer, and populate it with the root bounce library that matches the version and library `insecureComp` type specified in `constants.src`.
+
 ---
 
 ### `sniffer`

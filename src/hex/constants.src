@@ -1,4 +1,4 @@
-g.const.version = "0.0.832"
+g.const.version = "0.0.833"
 g.const.vhex = "v" + g.const.version
 g.const.indent = "    "
 // Nightly
