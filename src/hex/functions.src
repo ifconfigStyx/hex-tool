@@ -753,7 +753,13 @@ g.func.run = function(src, newTerminal = 0)
 
     context.shell.build(file.path, prefix + "/temp")
     if newTerminal then
-        context.shell.launch("/usr/bin/Terminal.exe", prefix + "/temp/hex")
+        terms = g.func.find(context.computer.File("/"), "Terminal.exe", "b") + [null]
+        if terms[0] == null then
+            print g.error("Could not find Terminal.exe for new terminal.")
+            return 0
+        end if
+        term = terms[0]
+        context.shell.launch(term.path, prefix + "/temp/hex")
         wait 2
     else
         context.shell.launch(prefix + "/temp/hex")

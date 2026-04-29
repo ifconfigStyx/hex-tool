@@ -1,0 +1,100 @@
+// Prints usage and flag descriptions for the ssh utility.
+// @return {none}
+sshHelp = function()
+    text = g.const.ni + g.l3("Usage:","u") + g.const.ni
+    text = text + g.g2(self.name) + g.b3(" {user@password} {ip}") + g.l2(" Connects to the target via SSH on port 22, adds the shell to the stack, and swaps to it.") + g.const.ni
+    text = text + g.g2(self.name) + g.b3(" {user@password} {ip} {port}") + g.l2(" Connects to the target via SSH on the specified port, adds the shell to the stack, and swaps to it.") + g.const.ni
+    text = text + g.g2(self.name) + g.b3(" [-h/help]") + g.l2(" Displays this help text") + g.const.nl
+
+    print(text)
+end function
+
+// Connects to a remote host via SSH from the current context's shell, creates a context
+// object with source "ssh", adds it to the stack, and automatically swaps to it.
+// Mirrors the game's default ssh binary, but instead of starting a terminal it pushes
+// the resulting shell onto the hex context stack as the active context.
+// @param {list<string>|null} args - [user@password, ip] or [user@password, ip, port].
+// @return {none}
+doSsh = function(args = null)
+    if args == null or args == [] then
+        self.help
+        return
+    end if
+
+    if args.len == 1 and (args[0] == "-h" or args[0] == "help") then
+        self.help
+        return
+    end if
+
+    if args.len == 2 then
+        credentials = args[0]
+        ip = args[1]
+        port = 22
+    else if args.len == 3 then
+        credentials = args[0]
+        ip = args[1]
+        port = args[2].to_int
+    else
+        self.help
+        return
+    end if
+
+    atIndex = credentials.indexOf("@")
+    if atIndex == null then
+        print g.error("Invalid credentials format. Expected user@password.")
+        return
+    end if
+
+    user = credentials[:atIndex]
+    password = credentials[atIndex+1:]
+
+    if not is_valid_ip(ip) then
+        print g.error("Invalid IP address: " + ip)
+        return
+    end if
+
+    if typeof(port) != "number" then
+        print g.error("Invalid port: " + args[2])
+        return
+    end if
+
+    if not g.func.checkProxy(1) or is_lan_ip(ip) then
+        idx = g.context.index
+    else
+        idx = g.proxy
+        print g.g1(g.const.indent + "Connecting from proxy: " + g.stack[idx].public)
+    end if
+
+    context = g.stack[idx]
+
+    if not context.shell then
+        print g.error("Context is not a shell.")
+        return
+    end if
+
+    shell = context.shell.connect_service(ip, port, user, password)
+
+    if shell == null then
+        print g.error("Failed to connect to " + user + "@" + ip + ":" + port)
+        return
+    else if typeof(shell) == "string" then
+        print g.error(shell)
+        return
+    else if shell.classID == "ftpshell" then
+        print g.error("Expected SSH shell, got FTP shell instead.")
+        return
+    end if
+
+    ctx = shell.createContext("ssh")
+    key = g.stack.add(ctx)
+    g.stack.lastIndex = g.context.index
+    g.context.index = key
+end function
+
+g.util.ssh = {
+    "name": "ssh",
+    "shortDescription": "Connect to a host via SSH",
+    "exec": @doSsh,
+    "help": @sshHelp,
+    "data": {}
+}
